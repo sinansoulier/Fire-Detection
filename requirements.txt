@@ -1,0 +1,11 @@
+torch
+torchvision
+Pillow
+opencv-python
+numpy
+scikit-learn
+matplotlib
+plotly
+pandas
+mlflow
+git+https://github.com/jacobgil/pytorch-grad-cam.git
