@@ -163,3 +163,8 @@ cython_debug/
 
 # Data
 data/
+data_subset*
+
+# Runs & checkpoints
+runs/
+*.pt

@@ -6,8 +6,10 @@ opencv-python
 numpy
 scikit-learn
 scikit-image
+PyYAML
 matplotlib
 plotly
 pandas
 mlflow
+tensorboard
 git+https://github.com/jacobgil/pytorch-grad-cam.git
