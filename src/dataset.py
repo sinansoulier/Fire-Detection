@@ -1,7 +1,10 @@
 import os
+import numpy as np
 import torch
 from torch.utils.data import Dataset, DataLoader
 from PIL import Image
+
+from src.utils.image import reduce_noise
 
 class FireImageDataset(Dataset):
     """
@@ -39,6 +42,8 @@ class FireImageDataset(Dataset):
         image = Image.open(image_path)
         with open(label_path, 'r') as f:
             str_bboxes = f.readlines()
+
+        image = reduce_noise(np.array(image))
 
         bboxes = [self.__parse_bounding_box(str_bbox) for str_bbox in str_bboxes]
         label = torch.tensor(bboxes)

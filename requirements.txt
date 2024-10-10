@@ -1,8 +1,8 @@
 torch
 torchvision
+ultralytics
 Pillow
 opencv-python
-PyWavelets
 numpy
 scikit-learn
 scikit-image
