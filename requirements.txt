@@ -2,8 +2,10 @@ torch
 torchvision
 Pillow
 opencv-python
+PyWavelets
 numpy
 scikit-learn
+scikit-image
 matplotlib
 plotly
 pandas

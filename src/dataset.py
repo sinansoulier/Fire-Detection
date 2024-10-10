@@ -1,7 +1,7 @@
 import os
 import torch
 from torch.utils.data import Dataset, DataLoader
-from torchvision.io import read_image
+from PIL import Image
 
 class FireImageDataset(Dataset):
     """
@@ -36,16 +36,15 @@ class FireImageDataset(Dataset):
         image_path = os.path.join(self.image_dir, self.image_files[idx])
         label_path = os.path.join(self.label_dir, self.label_files[idx])
 
-        image = read_image(image_path)
+        image = Image.open(image_path)
         with open(label_path, 'r') as f:
             str_bboxes = f.readlines()
 
         bboxes = [self.__parse_bounding_box(str_bbox) for str_bbox in str_bboxes]
-        label = torch.tensor(bboxes, dtype=torch.float32)
+        label = torch.tensor(bboxes)
 
         if self.transform:
             image = self.transform(image)
-            label = self.transform(label)
 
         return image, label
 
