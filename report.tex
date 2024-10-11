@@ -75,6 +75,8 @@ In this approach, the designed model is much lighter than the YOLO architecture,
 The model is composed of a ResNet-50 backbone, following by a regression head (based on LSTM layers) to predict object bounding boxes and a classification head (based on linear layers) to predict the presence of fire in every possible bounding box.
 As a result, for each sample, the label is a list of bounding boxes and an associated binary value indicating the presence of fire in each bounding box.
 
+One main advantage of this model is that it can be trained on and smaller computational resources, and can be fine-tuned on a larger dataset to improve the performance. However, it can only support a fixed and limited number of bounding boxes per image, which can be a limitation in some cases.
+
 \subsubsection{Data preprocessing and augmentation}
 
 The images were processed according to the following steps:
