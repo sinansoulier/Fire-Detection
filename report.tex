@@ -34,14 +34,13 @@
 
 \subsubsection{YOLOv5}
 
-The YOLOv5 model is a cutting-edge object detection model known for its high accuracy in identifying objects in images. It is build upon the YOLO (You Only Look Once) architecture, a single-stage detection model designed for real-time object detection. It is a state-of-the-art model that is widely used in the computer vision community, and it was pre-trained on the COCO dataset.\\
+The YOLOv5 model is a cutting-edge object detection model known for its high accuracy in identifying objects in images. It it built upon the YOLO (You Only Look Once) architecture, a single-stage detection model designed for real-time object detection. It is a state-of-the-art model that is widely used in the computer vision community, and it was pre-trained on the COCO dataset.\\
 
-Consequently, this model is well-suited for the detection of forest fires in landscape images. Indeed, in a real-world scenario, it is crucial to be able to detect fires as quickly as possible, so that it may not spread and cause massive damage.
-In addition, the YOLOv5 model offers high accuracy in locating objects bounds in images, which is essential to prevent false alarms (false positives predictions) and to enforce the early detection of fires.
+Consequently, this model is well-suited for the detection of forest fires in landscape images. In a real-world scenario, it is crucial to detect fires as quickly as possible to prevent them from spreading and causing massive damage. In addition, the YOLOv5 model offers high accuracy in locating object boundaries in images, which is essential to reduce false alarms (false positive predictions) and to ensure the early detection of fires.
 
 \subsubsection{Data selection}
 
-In order to run the YOLOv5 model training loop under a reasonable amount of time, and using of one T4 NVIDIA GPU, the training dataset was reduced to a subset containing only 10\% of the original images.
+To run the YOLOv5 model training loop within a reasonable amount of time and using one T4 NVIDIA GPU on Google Colab, the training dataset was reduced to a subset containing only 10\% of the original images.
 
 \subsubsection{Results on fire detection}
 
@@ -51,7 +50,7 @@ The YOLOv5 model was trained on a fragment of the fire detection dataset.
     \centering
     \begin{tabular}{|c|c|c|c|c|c|c|}
     \hline
-    Class & Images & Instances & P & R & mAP50 & mAP50-95 \\ 
+    Class & Images & Instances & Precision & Recall & mAP50 & mAP50-95 \\ 
     \hline
     all & 152 & 153 & 0.301 & 0.245 & 0.219 & 0.0941 \\ 
     \hline
@@ -60,10 +59,7 @@ The YOLOv5 model was trained on a fragment of the fire detection dataset.
     \label{table:first_table}
 \end{table}
 
-\begin{itemize}
-    \item As shown in the \textbf{Table 1}, the trained model did not perform well on the fire detection task. The test was performed on 152 images containing 153 instances of fire.
-    \item The model achieved a precision of 0.301, a recall of 0.245, a mean Average Precision (mAP) of 0.219 and a mAP of 0.0941 for the interval 50-95.
-\end{itemize}
+As shown in the \textbf{Table 1}, the trained model did not perform well on the fire detection task. The test was performed on 152 images containing 153 instances of fire.
 
 \newpage
 
@@ -71,11 +67,10 @@ The YOLOv5 model was trained on a fragment of the fire detection dataset.
 
 \subsubsection{Description}
 
-In this approach, the designed model is much lighter than the YOLO architecture, and is based on a ResNet-50 backbone with a multi-head detector.
-The model is composed of a ResNet-50 backbone, following by a regression head (based on LSTM layers) to predict object bounding boxes and a classification head (based on linear layers) to predict the presence of fire in every possible bounding box.
-As a result, for each sample, the label is a list of bounding boxes and an associated binary value indicating the presence of fire in each bounding box.
+This approach uses a model that is lighter than the YOLO architecture, and is composed of a ResNet-50 backbone with a multi-head detector. The model comprises a ResNet-50 backbone, followed by a regression head (based on LSTM layers) to predict object bounding boxes and a classification head (based on linear layers) to predict the presence of fire in each possible bounding box.
+For each sample, the output is a list of bounding boxes and an associated binary value indicating the presence of fire in each bounding box.
 
-One main advantage of this model is that it can be trained on and smaller computational resources, and can be fine-tuned on a larger dataset to improve the performance. However, it can only support a fixed and limited number of bounding boxes per image, which can be a limitation in some cases.
+One main advantage of this model is that it can be trained on smaller computational resources and fine-tuned on larger datasets to improve performance. However, it only supports a fixed, limited number of bounding boxes per image, which can be a limitation in certain cases.
 
 \subsubsection{Data preprocessing and augmentation}
 
@@ -91,8 +86,8 @@ The images were processed according to the following steps:
 \subsubsection{Performance (ResNet-50 \& LSTM)}
 
 \begin{itemize}
-    \item \textbf{ResNet-50 backbone} - The ResNet-50 model, pretrained on the ImageNet dataset, is a state-of-the-art convoluational encoder that is widely efficient for visual feature extraction. As it is also a lightweight model, thus suitable for fast and low-resource training, it can be used as a backbone in a transfer learning approach.
-    \item \textbf{LSTM regression head} - The LSTM (Long Short-Term Memory) layers are used to predict the bounding boxes of the objects in the image. The LSTM layers are well-suited for this task, as they can capture the "semantic" information of the feature maps extacted by the encoder, and predict the bounding boxes with a global visual context.
+    \item \textbf{ResNet-50 Backbone}: The ResNet-50 model, pre-trained on the ImageNet dataset, is a state-of-the-art convolutional encoder that efficiently extracts visual features. As a relatively lightweight model, it is suitable for fast, low-resource training and can be used as a backbone in a transfer learning approach.
+    \item \textbf{LSTM Regression Head}: The LSTM (Long Short-Term Memory) layers are used to predict the bounding boxes of objects in the image. LSTM layers are ideal for this task because they capture the "semantic" information of the feature maps extracted by the encoder, predicting bounding boxes with a global visual context.
 \end{itemize}
 
 \subsubsection{Results on fire detection}
@@ -103,16 +98,16 @@ The results are discussed directly in the notebook \textit{fire\_detection.ipynb
 
 \section{Improvements}
 
-In order to further improve the performance of the models, and to enhance the quality and productivity, the following improvements can be considered:
+To further improve model performance and enhance efficiency, the following improvements can be considered in one month of development time:
 
 \begin{itemize}
-    \item \textbf{Hyperparameter tuning} - As mean to optimize the chosen hyperparameters, a hyperparameter search could be performed, utilizing techniques such as grid search.
-    \item \textbf{Monitoring and logging} - Implement a monitoring and logging system to track the model performance during training and even once deployed in production. To that end, the MLFlow library can be used to log all the metrics, parameters, and artifacts of the model(s).
-    \item \textbf{Experiment tracking} - Use a tool such as Weights \& Biases to track the experiments and visualize the results in a more interactive way.
-    \item \textbf{Model ensembling} - Combine the predictions of multiple models to improve the overall performance and prediction reliability. This can be done by averaging the predictions of the models for instance.
-    \item \textbf{Large scale training} - Train the large YOLOv5 model on the full dataset, thus distributing over multiple GPUs or using cloud-based clusters such as AWS, GCP, or Azure.
-    \item \textbf{Explainability} - Visualize the model predictions and the feature maps to understand the model's decision-making process. A tool such as Grad-CAM can be used for visulisation purposes.
-    \item \textbf{Video processing} - Extend the algorithm to video processing, with and object tracking algorithm (using Kalmann filters for instance) to detect the fire in a sequence of frames.
+    \item \textbf{Hyperparameter tuning}: Optimize chosen hyperparameters using techniques such as grid search or random search.
+    \item \textbf{Monitoring and logging}: Implement a monitoring and logging system to track model performance during training and deployment. The MLFlow library can be used to log all metrics, parameters, and artifacts.
+    \item \textbf{Experiment tracking}: Use a tool such as Weights \& Biases to track the experiments and visualize the results interactively.
+    \item \textbf{Model ensembling}: Combine the predictions of multiple models to improve the overall performance and prediction reliability.  For instance, this can be done by averaging the predictions of the models.
+    \item \textbf{Large scale training}: Train the large YOLOv5 model on the entire dataset, potentially using distributed training on multiple GPUs or cloud-based clusters (e.g., AWS, GCP, Azure).
+    \item \textbf{Explainability}: Visualize model predictions and feature maps to understand the model's decision-making process. The Grad-CAM can be used for visualization purposes.
+    \item \textbf{Video processing}: Extend the algorithm to video processing, using an object tracking algorithm (e.g., Kalman filters) to detect fire in a sequence of frames.
 \end{itemize}
 
 \end{document}
