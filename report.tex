@@ -72,6 +72,8 @@ For each sample, the output is a list of bounding boxes and an associated binary
 
 One main advantage of this model is that it can be trained on smaller computational resources and fine-tuned on larger datasets to improve performance. However, it only supports a fixed, limited number of bounding boxes per image, which can be a limitation in certain cases.
 
+The loss function used for training is a combination of the cross-entropy loss for the classification and the mean square error (MSE) for the regression task.
+
 \subsubsection{Data preprocessing and augmentation}
 
 The images were processed according to the following steps:
