@@ -1,0 +1,114 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+
+\begin{document}
+
+\pagenumbering{empty}
+\begin{titlepage}
+\begin{center}
+
+
+{ {\huge \bfseries Computer Vision - Fire detection}\\[0.4cm]
+    \LARGE Hi! PARIS x Pyronear}
+
+\vfill
+
+\begin{minipage}{0.5\textwidth}
+    \large
+    \centering
+    François \textsc{Soulier}
+\end{minipage}
+
+\end{center}
+\end{titlepage}
+
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\section{Approaches}
+
+\subsection{You Only Look Once (YOLO)}
+
+\subsubsection{YOLOv5}
+
+The YOLOv5 model is a cutting-edge object detection model known for its high accuracy in identifying objects in images. It it built upon the YOLO (You Only Look Once) architecture, a single-stage detection model designed for real-time object detection. It is a state-of-the-art model that is widely used in the computer vision community, and it was pre-trained on the COCO dataset.\\
+
+Consequently, this model is well-suited for the detection of forest fires in landscape images. In a real-world scenario, it is crucial to detect fires as quickly as possible to prevent them from spreading and causing massive damage. In addition, the YOLOv5 model offers high accuracy in locating object boundaries in images, which is essential to reduce false alarms (false positive predictions) and to ensure the early detection of fires.
+
+\subsubsection{Data selection}
+
+To run the YOLOv5 model training loop within a reasonable amount of time and using one T4 NVIDIA GPU on Google Colab, the training dataset was reduced to a subset containing only 10\% of the original images.
+
+\subsubsection{Results on fire detection}
+
+The YOLOv5 model was trained on a fragment of the fire detection dataset.
+
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    Class & Images & Instances & Precision & Recall & mAP50 & mAP50-95 \\ 
+    \hline
+    all & 152 & 153 & 0.301 & 0.245 & 0.219 & 0.0941 \\ 
+    \hline
+    \end{tabular}
+    \caption{Performance metrics of the model}
+    \label{table:first_table}
+\end{table}
+
+As shown in the \textbf{Table 1}, the trained model did not perform well on the fire detection task. The test was performed on 152 images containing 153 instances of fire.
+
+\newpage
+
+\subsection{Multi-Head detector}
+
+\subsubsection{Description}
+
+This approach uses a model that is lighter than the YOLO architecture, and is composed of a ResNet-50 backbone with a multi-head detector. The model comprises a ResNet-50 backbone, followed by a regression head (based on LSTM layers) to predict object bounding boxes and a classification head (based on linear layers) to predict the presence of fire in each possible bounding box.
+For each sample, the output is a list of bounding boxes and an associated binary value indicating the presence of fire in each bounding box.
+
+One main advantage of this model is that it can be trained on smaller computational resources and fine-tuned on larger datasets to improve performance. However, it only supports a fixed, limited number of bounding boxes per image, which can be a limitation in certain cases.
+
+\subsubsection{Data preprocessing and augmentation}
+
+The images were processed according to the following steps:
+
+\begin{itemize}
+    \item Reduce noise by applying smoothing and blurring filters (Gaussian, Median, Bilateral).
+    \item Resizing to 224x224 pixels.
+    \item Normalize the pixel values to the range [0, 1].
+    \item Apply random color modifications (brightness, contrast, saturation).
+\end{itemize}
+
+\subsubsection{Performance (ResNet-50 \& LSTM)}
+
+\begin{itemize}
+    \item \textbf{ResNet-50 Backbone}: The ResNet-50 model, pre-trained on the ImageNet dataset, is a state-of-the-art convolutional encoder that efficiently extracts visual features. As a relatively lightweight model, it is suitable for fast, low-resource training and can be used as a backbone in a transfer learning approach.
+    \item \textbf{LSTM Regression Head}: The LSTM (Long Short-Term Memory) layers are used to predict the bounding boxes of objects in the image. LSTM layers are ideal for this task because they capture the "semantic" information of the feature maps extracted by the encoder, predicting bounding boxes with a global visual context.
+\end{itemize}
+
+\subsubsection{Results on fire detection}
+
+The results are discussed directly in the notebook \textit{fire\_detection.ipynb}, with visualizations of the model predictions.
+
+\newpage
+
+\section{Improvements}
+
+To further improve model performance and enhance efficiency, the following improvements can be considered in one month of development time:
+
+\begin{itemize}
+    \item \textbf{Hyperparameter tuning}: Optimize chosen hyperparameters using techniques such as grid search or random search.
+    \item \textbf{Monitoring and logging}: Implement a monitoring and logging system to track model performance during training and deployment. The MLFlow library can be used to log all metrics, parameters, and artifacts.
+    \item \textbf{Experiment tracking}: Use a tool such as Weights \& Biases to track the experiments and visualize the results interactively.
+    \item \textbf{Model ensembling}: Combine the predictions of multiple models to improve the overall performance and prediction reliability.  For instance, this can be done by averaging the predictions of the models.
+    \item \textbf{Large scale training}: Train the large YOLOv5 model on the entire dataset, potentially using distributed training on multiple GPUs or cloud-based clusters (e.g., AWS, GCP, Azure).
+    \item \textbf{Explainability}: Visualize model predictions and feature maps to understand the model's decision-making process. The Grad-CAM can be used for visualization purposes.
+    \item \textbf{Video processing}: Extend the algorithm to video processing, using an object tracking algorithm (e.g., Kalman filters) to detect fire in a sequence of frames.
+    \item \textbf{Coninuous integration and deployment}: Implement CI/CD pipelines to automate the model training, evaluation, and deployment processes. They could be integrated with GitHub Actions or Gitlab CI/CD, running test suites.
+\end{itemize}
+
+\end{document}
