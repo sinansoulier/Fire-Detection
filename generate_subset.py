@@ -102,19 +102,6 @@ def create_subset(args: argparse.Namespace) -> None:
 
     create_yaml_config(args)
 
-    # for split in splits:
-    #     os.makedirs(os.path.join(args.output_dir, split, "images"), exist_ok=True)
-    #     os.makedirs(os.path.join(args.output_dir, split, "labels"), exist_ok=True)
-
-    # images_splits = [train_images, val_images, test_images]
-    # labels_splits = [train_labels, val_labels, test_labels]
-
-    # for i in range(len(images_splits)):
-    #     for image, label in zip(images_splits[i], labels_splits[i]):
-    #         # Copy the image and label to the new directory
-    #         os.system(f"cp {image} {os.path.join(args.output_dir, splits[i], 'images')}")
-    #         os.system(f"cp {label} {os.path.join(args.output_dir, splits[i], 'labels')}")
-
 if __name__ == "__main__":
     args = parse_args()
     if os.path.exists(args.output_dir):
