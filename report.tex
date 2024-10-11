@@ -34,7 +34,7 @@
 
 \subsubsection{YOLOv5}
 
-The YOLOv5 model is a cutting-edge object detection model known for its high accuracy in identifying objects in images. It is build upon the YOLO (You Only Look Once) architecture, a single-stage detection model designed for real-time object detection. It a state-of-the-art model that is widely used in the computer vision community. The YOLOv5 model is based on a convolutional neural network (CNN) architecture, and is composed of a backbone network (a series of convolutional layers) and a detection head (a series of convolutional layers and prediction layers). The model is trained on a large dataset of images with annotated objects, and learns to predict the bounding boxes and class labels of the objects in the images. The YOLOv5 model is known for its high accuracy and fast inference speed, making it ideal for real-time object detection applications.\\
+The YOLOv5 model is a cutting-edge object detection model known for its high accuracy in identifying objects in images. It is build upon the YOLO (You Only Look Once) architecture, a single-stage detection model designed for real-time object detection. It is a state-of-the-art model that is widely used in the computer vision community, and it was pre-trained on the COCO dataset.\\
 
 Consequently, this model is well-suited for the detection of forest fires in landscape images. Indeed, in a real-world scenario, it is crucial to be able to detect fires as quickly as possible, so that it may not spread and cause massive damage.
 In addition, the YOLOv5 model offers high accuracy in locating objects bounds in images, which is essential to prevent false alarms (false positives predictions) and to enforce the early detection of fires.
@@ -106,12 +106,13 @@ The results are discussed directly in the notebook \textit{fire\_detection.ipynb
 In order to further improve the performance of the models, and to enhance the quality and productivity, the following improvements can be considered:
 
 \begin{itemize}
-    \item \textbf{Hyperparameter tuning} - As mean to optimize the chosen hyperparameters, a hyperparameter search could be performed, utilizing techniques seach as grid search.
+    \item \textbf{Hyperparameter tuning} - As mean to optimize the chosen hyperparameters, a hyperparameter search could be performed, utilizing techniques such as grid search.
     \item \textbf{Monitoring and logging} - Implement a monitoring and logging system to track the model performance during training and even once deployed in production. To that end, the MLFlow library can be used to log all the metrics, parameters, and artifacts of the model(s).
     \item \textbf{Experiment tracking} - Use a tool such as Weights \& Biases to track the experiments and visualize the results in a more interactive way.
     \item \textbf{Model ensembling} - Combine the predictions of multiple models to improve the overall performance and prediction reliability. This can be done by averaging the predictions of the models for instance.
     \item \textbf{Large scale training} - Train the large YOLOv5 model on the full dataset, thus distributing over multiple GPUs or using cloud-based clusters such as AWS, GCP, or Azure.
-    \item \textbf{Explainability} - Visuliase the model predictions and the feature maps to understand the model's decision-making process. A tool such as Grad-CAM can be used for visulisation purposes.
+    \item \textbf{Explainability} - Visualize the model predictions and the feature maps to understand the model's decision-making process. A tool such as Grad-CAM can be used for visulisation purposes.
+    \item \textbf{Video processing} - Extend the algorithm to video processing, with and object tracking algorithm (using Kalmann filters for instance) to detect the fire in a sequence of frames.
 \end{itemize}
 
 \end{document}
