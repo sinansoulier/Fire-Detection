@@ -10,13 +10,19 @@ class FireImageDataset(Dataset):
     """
     Dataset class for the fire image dataset.
     """
-    def __init__(self, image_dir, label_dir, transform=None):
+    def __init__(self, image_dir, label_dir, transform=None, portion=1.0):
         self.image_dir = image_dir
         self.label_dir = label_dir
         self.transform = transform
 
-        self.label_files = sorted(os.listdir(label_dir))
-        self.image_files = sorted(self.__labeled_images(os.listdir(image_dir)))
+        # self.label_files = sorted(os.listdir(label_dir))
+        # self.image_files = sorted(self.__labeled_images(os.listdir(image_dir)))
+        label_files = sorted(os.listdir(label_dir))
+        end = int(portion * len(label_files))
+        self.label_files = label_files[:end]
+
+        image_files = sorted(self.__labeled_images(os.listdir(image_dir)))
+        self.image_files = image_files[:end]
 
     def __len__(self):
         """
@@ -25,6 +31,9 @@ class FireImageDataset(Dataset):
         Returns:
             int: size of the dataset
         """
+        if len(self.image_files) != len(self.label_files):
+            raise ValueError("Number of images and labels do not match {} != {}".format(len(self.image_files), len(self.label_files)))
+    
         return len(self.image_files)
 
     def __getitem__(self, idx: int):
@@ -82,3 +91,17 @@ class FireImageDataset(Dataset):
             list[float]: list containing bounding box information
         """
         return list(map(float, label.strip().split(' ')))[1:]
+
+    def collate_fn(self, batch: list) -> tuple:
+        """
+        Collate function for the dataset.
+
+        Args:
+            batch (list): list of (image, label) pairs
+        Returns:
+            tuple: (images, labels)
+        """
+        images = torch.stack([b[0] for b in batch])
+        labels = [b[1] for b in batch]
+
+        return images, labels

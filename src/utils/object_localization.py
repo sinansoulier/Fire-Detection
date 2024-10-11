@@ -116,3 +116,19 @@ class BoundingBox:
             edgecolor='r',
             facecolor='none'
         )
+
+def l_boxes_to_tensor(labels: list, num_supported_boxes: int) -> torch.Tensor:
+    """
+    Convert the bounding box labels to a tensor.
+
+    Args:
+        labels (list): The ground truth bounding box labels
+        num_supported_boxes (int): The number of supported bounding boxes
+    Returns:
+        torch.Tensor: A tensor of bounding box labels
+    """
+    bbox_tensor = torch.zeros(len(labels), num_supported_boxes, 4)
+    for i in range(len(labels)):
+        for j in range(len(labels[i])):
+            bbox_tensor[i][j] = torch.tensor(labels[i][j])
+    return bbox_tensor
