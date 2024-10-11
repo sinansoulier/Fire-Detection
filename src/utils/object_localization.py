@@ -94,13 +94,14 @@ class BoundingBox:
             normalized=False
         )
 
-    def plt_rectangle(self, image_width: int, image_height: int) -> patches.Rectangle:
+    def plt_rectangle(self, image_width: int, image_height: int, color: str = "r") -> patches.Rectangle:
         """
         Return a matplotlib Rectangle object representing the bounding box.
 
         Args:
             image_width (int): The width of the image.
             image_height (int): The height of the image
+            color (str): The color of the bounding box.
         Returns:
             patches.Rectangle: A matplotlib Rectangle object representing the bounding box.
         """
@@ -113,7 +114,7 @@ class BoundingBox:
             bbox.width,
             bbox.height,
             linewidth=1,
-            edgecolor='r',
+            edgecolor=color,
             facecolor='none'
         )
 
